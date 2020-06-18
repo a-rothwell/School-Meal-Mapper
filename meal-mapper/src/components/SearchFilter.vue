@@ -19,11 +19,7 @@
       >{{ $t("sidebar.info-end-text") }}
     </InfoPanel>
 
-    <InfoPanel
-      :infotype="'handwash'"
-      :icon="'fa-hands-wash'"
-      v-if="filteredMarkers.length == 0"
-    >
+    <InfoPanel :infotype="'handwash'" :icon="'fa-hands-wash'">
       <b class="themeFont">{{ $t("sidebar.shopsafe") }}</b>
       <br />
       (1) {{ $t("sidebar.stayhome") }}<br />
@@ -31,56 +27,56 @@
       (3) {{ $t("sidebar.washhands") }}<br />
     </InfoPanel>
 
-    <BusinessDetails
+    <!-- <BusinessDetails
       :infotype="'green'"
       :icon="'fa-tractor'"
       :business="location.currentBusiness"
       v-if="location.currentBusiness != null && showListing != true"
       @close-details="closeDetails"
-    ></BusinessDetails>
+    ></BusinessDetails> -->
 
-    <results-list
+    <!-- <results-list
       :filteredMarkers="highlightFilteredMarkers"
       :location="location"
       @location-selected="passLocation"
       v-if="showListing"
       :selected-day="day"
-    />
+    /> -->
   </div>
 </template>
 
 <script>
-import { weekdays } from "../constants";
-import BusinessDetails from "./BusinessDetails.vue";
+// import { weekdays } from "../constants";
+// import BusinessDetails from "./BusinessDetails.vue";
 import InfoPanel from "./InfoPanel.vue";
-import ResultsList from "./ResultsList.vue";
+// import ResultsList from "./ResultsList.vue";
 
 export default {
   name: "search-filter",
   components: {
-    BusinessDetails,
+    // BusinessDetails,
     InfoPanel,
-    ResultsList,
+    // ResultsList,
   },
   data() {
     return {
-      locationData: location,
-      showListing: this.showList,
+      // locationData: location,
+      // showListing: this.showList,
     };
   },
   props: {
     isFilterOpen: Boolean,
-    need: String,
-    day: Number,
-    filteredMarkers: Array,
-    highlightFilteredMarkers: Array,
-    location: {
-      locValue: Number,
-      locId: String,
-      isSetByMap: Boolean,
-      currentBusiness: Object,
-    },
-    showList: Boolean,
+    // need: String,
+    // day: Number,
+    // filteredMarkers: Array,
+    // highlightFilteredMarkers: Array,
+    // location: {
+    //   locValue: Number,
+    //   locId: String,
+    //   isSetByMap: Boolean,
+    //   currentBusiness: Object,
+    // },
+    // showList: Boolean,
   },
   computed: {
     // currentBusiness() {
@@ -89,58 +85,58 @@ export default {
     //   }
     //   return 0 + this.filteredMarkers.length > 0 && this.location.locValue > -1 ? this.filteredMarkers[this.location.locValue] : null
     // },
-    needOptionGroups() {
-      const categories = this.getNeedCategories().categories;
-      const needOptions = [
-        { value: "none", text: this.$tc("label.selectacategory", 1) },
-      ];
-      categories.forEach((category) => {
-        if (category.subcategories != undefined) {
-          const label = category.name;
-          const myOptions = [];
-          category.subcategories.forEach((subcategory) => {
-            const text = "category." + subcategory.code;
-            myOptions.push({
-              text: this.$t(text),
-              value: subcategory.code,
-            });
-          });
-          needOptions.push({
-            label: label,
-            options: myOptions,
-          });
-        } else {
-          const text = "category." + category.code;
-          needOptions.push({
-            text: this.$t(text),
-            value: category.code,
-          });
-        }
-      });
-      return needOptions;
-    },
-    needOptions() {
-      return [
-        {
-          value: "selectacategory",
-          text: this.$tc("label.selectacategory", 1),
-        },
-        { value: "restaurant", text: this.$tc("category.restaurant", 2) },
-        { value: "meal", text: this.$tc("category.meal", 2) },
-        { value: "family", text: this.$tc("category.family", 2) },
-        { value: "farm", text: this.$tc("category.farm", 2) },
-        { value: "grocery", text: this.$tc("category.grocery", 2) },
-        { value: "pharmacy", text: this.$tc("category.pharmacy", 1) },
-        { value: "food_bev", text: this.$tc("category.food_bev", 2) },
-        { value: "pet", text: this.$t("category.pet") },
-      ];
-    },
-    dayOptions() {
-      return weekdays.map((i) => ({
-        value: i.pos,
-        text: this.$t(`dayofweek.${i.day}`),
-      }));
-    },
+    // needOptionGroups() {
+    //   const categories = this.getNeedCategories().categories;
+    //   const needOptions = [
+    //     { value: "none", text: this.$tc("label.selectacategory", 1) },
+    //   ];
+    //   categories.forEach((category) => {
+    //     if (category.subcategories != undefined) {
+    //       const label = category.name;
+    //       const myOptions = [];
+    //       category.subcategories.forEach((subcategory) => {
+    //         const text = "category." + subcategory.code;
+    //         myOptions.push({
+    //           text: this.$t(text),
+    //           value: subcategory.code,
+    //         });
+    //       });
+    //       needOptions.push({
+    //         label: label,
+    //         options: myOptions,
+    //       });
+    //     } else {
+    //       const text = "category." + category.code;
+    //       needOptions.push({
+    //         text: this.$t(text),
+    //         value: category.code,
+    //       });
+    //     }
+    //   });
+    //   return needOptions;
+    // },
+    // needOptions() {
+    //   return [
+    //     {
+    //       value: "selectacategory",
+    //       text: this.$tc("label.selectacategory", 1),
+    //     },
+    //     { value: "restaurant", text: this.$tc("category.restaurant", 2) },
+    //     { value: "meal", text: this.$tc("category.meal", 2) },
+    //     { value: "family", text: this.$tc("category.family", 2) },
+    //     { value: "farm", text: this.$tc("category.farm", 2) },
+    //     { value: "grocery", text: this.$tc("category.grocery", 2) },
+    //     { value: "pharmacy", text: this.$tc("category.pharmacy", 1) },
+    //     { value: "food_bev", text: this.$tc("category.food_bev", 2) },
+    //     { value: "pet", text: this.$t("category.pet") },
+    //   ];
+    // },
+    // dayOptions() {
+    //   return weekdays.map((i) => ({
+    //     value: i.pos,
+    //     text: this.$t(`dayofweek.${i.day}`),
+    //   }));
+    // },
     tabtitle() {
       return this.isFilterOpen
         ? this.$t("sidebar.close-panel")
@@ -148,85 +144,85 @@ export default {
     },
   },
   methods: {
-    getNeedCategories() {
-      return {
-        categories: [
-          {
-            code: "food",
-            id: 1001,
-            name: "Food Resources",
-            subcategories: [
-              {
-                code: "restaurant",
-                id: 1002,
-                name: "Restaurants",
-              },
-              {
-                code: "meal",
-                id: 1004,
-                name: "Free meals",
-              },
-              {
-                code: "family",
-                id: 1006,
-                name: "Prepared family meals",
-              },
-              {
-                code: "food_bev",
-                id: 1003,
-                name: "Specialty food & beverage",
-              },
-              {
-                code: "grocery",
-                id: 1005,
-                name: "Groceries",
-              },
-            ],
-          },
-          {
-            code: "farm",
-            id: 1007,
-            name: "Farms & farmers markets",
-          },
-          {
-            code: "pharmacy",
-            id: 1008,
-            name: "Pharmacy",
-          },
-          {
-            code: "pet",
-            id: 1009,
-            name: "Pet supplies",
-          },
-        ],
-        regions: ["Orange"],
-      };
-    },
-    closeDetails: function () {
-      this.showListing = true;
-    },
-    passLocation: function (val) {
-      this.locationData = val;
-      this.showListing = false;
-      this.$emit("location-selected", val);
-    },
+    // getNeedCategories() {
+    //   return {
+    //     categories: [
+    //       {
+    //         code: "food",
+    //         id: 1001,
+    //         name: "Food Resources",
+    //         subcategories: [
+    //           {
+    //             code: "restaurant",
+    //             id: 1002,
+    //             name: "Restaurants",
+    //           },
+    //           {
+    //             code: "meal",
+    //             id: 1004,
+    //             name: "Free meals",
+    //           },
+    //           {
+    //             code: "family",
+    //             id: 1006,
+    //             name: "Prepared family meals",
+    //           },
+    //           {
+    //             code: "food_bev",
+    //             id: 1003,
+    //             name: "Specialty food & beverage",
+    //           },
+    //           {
+    //             code: "grocery",
+    //             id: 1005,
+    //             name: "Groceries",
+    //           },
+    //         ],
+    //       },
+    //       {
+    //         code: "farm",
+    //         id: 1007,
+    //         name: "Farms & farmers markets",
+    //       },
+    //       {
+    //         code: "pharmacy",
+    //         id: 1008,
+    //         name: "Pharmacy",
+    //       },
+    //       {
+    //         code: "pet",
+    //         id: 1009,
+    //         name: "Pet supplies",
+    //       },
+    //     ],
+    //     regions: ["Orange"],
+    //   };
+    // },
+    // closeDetails: function () {
+    //   this.showListing = true;
+    // },
+    // passLocation: function (val) {
+    //   this.locationData = val;
+    //   this.showListing = false;
+    //   this.$emit("location-selected", val);
+    // },
   },
   watch: {
-    day: function () {
-      this.locationData = null;
-      this.showListing = true;
-    },
-    need: function (val) {
-      this.locationData = null;
-      if (val == "none") {
-        this.showListing = false;
-      } else {
-        this.showListing = true;
-      }
-    },
-    location: function () {
-      this.showListing = false;
-    },
+    // day: function () {
+    //   this.locationData = null;
+    //   this.showListing = true;
+    // },
+    // need: function (val) {
+    //   this.locationData = null;
+    //   if (val == "none") {
+    //     this.showListing = false;
+    //   } else {
+    //     this.showListing = true;
+    //   }
+    // },
+    // location: function () {
+    //   this.showListing = false;
+    // },
   },
 };
 </script>

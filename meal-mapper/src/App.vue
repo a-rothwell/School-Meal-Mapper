@@ -14,17 +14,10 @@
       :class="{ toggled: isFilterOpen }"
       v-if="!!entries"
     >
-      <!-- <search-filter
+      <search-filter
         :isFilterOpen="isFilterOpen"
-        :need="need"
-        :day="day"
-        :location="locationData"
-        :show-list="showList"
-        @location-selected="passLocation"
         @toggle="isFilterOpen = !isFilterOpen"
-        @need-selected="needSelected"
-        @day-selected="daySelected"
-      /> -->
+      />
 
       <div id="page-content-wrapper">
         <resource-map
@@ -45,7 +38,7 @@
 
 <script>
 import AppHeader from "./components/Header.vue";
-// import SearchFilter from "./components/SearchFilter.vue";
+import SearchFilter from "./components/SearchFilter.vue";
 import ResourceMap from "./components/ResourceMap.vue";
 import AboutUsModal from "./components/AboutUs.vue";
 import { latLng } from "leaflet";
@@ -92,7 +85,7 @@ export default {
     AboutUsModal,
     AppHeader,
     ResourceMap,
-    // SearchFilter,
+    SearchFilter,
     ThemeHeader,
   },
   data() {
@@ -217,8 +210,7 @@ export default {
     filteredMarkers() {
       if (this.entries == null) return null;
 
-      var markers;
-      markers = this.entries;
+      const markers = this.entries.slice(0, 5);
 
       var retList = extend(
         markers.map((marker) => ({

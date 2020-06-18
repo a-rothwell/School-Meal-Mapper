@@ -210,7 +210,7 @@ export default {
     filteredMarkers() {
       if (this.entries == null) return null;
 
-      const markers = this.entries.slice(0, 5);
+      const markers = this.entries;
 
       var retList = extend(
         markers.map((marker) => ({

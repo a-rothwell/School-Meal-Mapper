@@ -14,19 +14,17 @@
       :class="{ toggled: isFilterOpen }"
       v-if="!!entries"
     >
-      <search-filter
+      <!-- <search-filter
         :isFilterOpen="isFilterOpen"
         :need="need"
         :day="day"
-        :filteredMarkers="filteredMarkers"
-        :highlightFilteredMarkers="highlightFilteredMarkers"
         :location="locationData"
         :show-list="showList"
         @location-selected="passLocation"
         @toggle="isFilterOpen = !isFilterOpen"
         @need-selected="needSelected"
         @day-selected="daySelected"
-      />
+      /> -->
 
       <div id="page-content-wrapper">
         <resource-map
@@ -47,13 +45,13 @@
 
 <script>
 import AppHeader from "./components/Header.vue";
-import SearchFilter from "./components/SearchFilter.vue";
+// import SearchFilter from "./components/SearchFilter.vue";
 import ResourceMap from "./components/ResourceMap.vue";
 import AboutUsModal from "./components/AboutUs.vue";
 import { latLng } from "leaflet";
 import { haversineDistance, sortByDistance } from "./utilities";
 
-import { weekdays, dayFilters, booleanFilters, dayAny } from "./constants";
+import { weekdays, dayAny } from "./constants";
 
 import { theme } from "theme.config";
 import ThemeHeader from "theme.header";
@@ -94,7 +92,7 @@ export default {
     AboutUsModal,
     AppHeader,
     ResourceMap,
-    SearchFilter,
+    // SearchFilter,
     ThemeHeader,
   },
   data() {
@@ -220,47 +218,12 @@ export default {
       if (this.entries == null) return null;
 
       var markers;
-      //markers = this.entries;
-      if (this.need == "family") {
-        markers = this.entries.filter(
-          (c) => c.gsx$familymeal.$t == 1 && c.gsx$status.$t == "1"
-        );
-      } else {
-        markers = this.entries.filter(
-          (c) => c.gsx$resource.$t === this.need && c.gsx$status.$t == "1"
-        );
-      }
-      //markers = this.entries;
-      // Filter out the boolean items
-      this.highlightFilters.forEach((element) => {
-        if (booleanFilters.includes(element)) {
-          markers = markers.filter((c) => c["gsx$" + element].$t == "1");
-        }
-      });
-
-      var today = new Date().getDay();
-      var selectedDay = today;
-      if (!this.isAnyDaySelected(this.day)) {
-        selectedDay = this.day;
-      }
-
-      const dayFilter = dayFilters[this.getDay(selectedDay)];
-      var open = markers.filter((c) => c[dayFilter].$t !== "0");
-      var closed = markers.filter((c) => c[dayFilter].$t == "0");
+      markers = this.entries;
 
       var retList = extend(
-        open.map((marker) => ({
+        markers.map((marker) => ({
           marker,
           oc: true,
-          distance: haversineDistance(
-            [this.centroid.lat, this.centroid.lng],
-            [marker.gsx$lat.$t, marker.gsx$lon.$t],
-            true
-          ),
-        })),
-        closed.map((marker) => ({
-          marker,
-          oc: false,
           distance: haversineDistance(
             [this.centroid.lat, this.centroid.lng],
             [marker.gsx$lat.$t, marker.gsx$lon.$t],
